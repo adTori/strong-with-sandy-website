@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StrongWithSandy – Gruppträning i Linghem</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #3d7a4f;
+    --green-light: #5aad6e;
+    --gold: #d4a843;
+    --dark: #0e0e0e;
+    --dark-2: #161a14;
+    --text: #e8e6df;
+    --muted: #8a8a7a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 70% 50%, #1e3d28 0%, var(--dark) 70%);
+  }
+
+  .hero-left {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(61,122,79,0.25);
+    border: 1px solid rgba(90,173,110,0.35);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 32px;
+    width: fit-content;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green-light);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 8vw, 120px);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .hero h1 span {
+    color: var(--green-light);
+    display: block;
+  }
+
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 400px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-top: 44px;
+    animation: fadeUp 0.8s 0.45s ease both;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: #fff;
+    padding: 16px 36px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--green-light); transform: translateY(-2px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    padding: 16px 36px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(232,230,223,0.2);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--text); transform: translateY(-2px); }
+
+  .hero-right {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-top: 60px;
+    overflow: hidden;
+  }
+
+  .hero-image-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .hero-image-bg {
+    position: absolute;
+    bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 340px; height: 340px;
+    background: radial-gradient(circle, rgba(61,122,79,0.4) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+
+  .hero-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, #1e3d28 0%, #0e1a12 100%);
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--green-light);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(90,173,110,0.15);
+  }
+
+  .silhouette {
+    width: 120px;
+    opacity: 0.6;
+  }
+
+  /* ---- STATS BAR ---- */
+  .stats-bar {
+    background: var(--green);
+    padding: 0;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .stat {
+    flex: 1;
+    text-align: center;
+    padding: 28px 20px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+    animation: fadeUp 0.7s ease both;
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-top: 4px;
+  }
+
+  /* ---- SECTION SHARED ---- */
+  section { position: relative; }
+
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 40px;
+  }
+
+  .section-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  /* ---- ABOUT ---- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-text p {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #a8a89a;
+    margin-bottom: 20px;
+  }
+  .about-text p strong { color: var(--text); font-weight: 600; }
+
+  .about-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .about-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(232,230,223,0.06);
+    border-radius: 8px;
+    padding: 28px 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .about-card:hover { border-color: rgba(90,173,110,0.3); transform: translateY(-4px); }
+
+  .about-card:nth-child(2) { margin-top: 32px; }
+  .about-card:nth-child(4) { margin-top: -32px; }
+
+  .about-card-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .about-card h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .about-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ---- INFO ---- */
+  .info-section {
+    background: var(--dark-2);
+    border-top: 1px solid rgba(232,230,223,0.06);
+    border-bottom: 1px solid rgba(232,230,223,0.06);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(232,230,223,0.06);
+    border: 1px solid rgba(232,230,223,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 60px;
+  }
+
+  .info-item {
+    background: var(--dark-2);
+    padding: 44px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: background 0.2s;
+  }
+  .info-item:hover { background: #1a1f18; }
+
+  .info-icon {
+    width: 44px; height: 44px;
+    background: rgba(61,122,79,0.2);
+    border: 1px solid rgba(90,173,110,0.25);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .info-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .info-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .info-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ---- PRICING ---- */
+  .price-section { text-align: center; }
+
+  .price-card {
+    max-width: 480px;
+    margin: 60px auto 0;
+    background: linear-gradient(145deg, #1a3023 0%, #0e1a12 100%);
+    border: 1px solid rgba(90,173,110,0.3);
+    border-radius: 16px;
+    padding: 60px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(90,173,110,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .price-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: #1a1200;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .price-unit {
+    font-size: 18px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  .price-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .price-includes li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 300;
+    color: #b0b0a0;
+  }
+
+  .check {
+    width: 20px; height: 20px;
+    background: rgba(90,173,110,0.2);
+    border: 1px solid rgba(90,173,110,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+    color: var(--green-light);
+  }
+
+  /* ---- CONTACT ---- */
+  .contact-section {
+    background: linear-gradient(180deg, var(--dark) 0%, #0b1a0f 100%);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(232,230,223,0.06);
+  }
+
+  .contact-icon {
+    width: 40px; height: 40px;
+    background: rgba(61,122,79,0.2);
+    border: 1px solid rgba(90,173,110,0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .contact-info { flex: 1; }
+  .contact-info span {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .contact-info a, .contact-info p {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-info a:hover { color: var(--green-light); }
+
+  /* CTA FORM SIDE */
+  .contact-form-wrap {
+    background: var(--dark-2);
+    border: 1px solid rgba(232,230,223,0.08);
+    border-radius: 12px;
+    padding: 48px;
+  }
+
+  .contact-form-wrap h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+
+  .contact-form-wrap p {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-group input, .form-group textarea {
+    width: 100%;
+    background: rgba(232,230,223,0.04);
+    border: 1px solid rgba(232,230,223,0.1);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input::placeholder, .form-group textarea::placeholder { color: var(--muted); }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--green-light); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: #080808;
+    border-top: 1px solid rgba(232,230,223,0.05);
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+
+  .footer-logo span { color: var(--green-light); }
+
+  footer p {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s, padding 0.3s;
+  }
+
+  nav.scrolled {
+    background: rgba(14,14,14,0.95);
+    backdrop-filter: blur(12px);
+    padding: 16px 60px;
+    border-bottom: 1px solid rgba(232,230,223,0.06);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--green-light); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+    .nav-links { display: none; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .hero-left { padding: 120px 24px 60px; }
+    .hero-right { display: none; }
+
+    .stats-bar { flex-wrap: wrap; }
+    .stat { flex: 0 0 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12); }
+
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-visual { display: none; }
+
+    .info-grid { grid-template-columns: 1fr; }
+    .info-item:not(:last-child) { border-bottom: 1px solid rgba(232,230,223,0.06); }
+
+    .section-inner { padding: 70px 24px; }
+
+    .contact-form-wrap { padding: 32px 24px; }
+
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Strong<span>With</span>Sandy</a>
+  <ul class="nav-links">
+    <li><a href="#om">Om</a></li>
+    <li><a href="#info">Info</a></li>
+    <li><a href="#pris">Pris</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="#kontakt" class="btn-primary" style="font-size:12px; padding:12px 24px;">Anmäl dig</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-left">
+    <div class="badge"><div class="badge-dot"></div> Börjar 3 mars 2026</div>
+    <h1>Strong<span>With</span>Sandy</h1>
+    <p class="hero-sub">
+      <strong>Gruppträning i Linghem</strong> – ett energifyllt pass för dig som vill komma igång med träningen. Tisdagar kl 20:00, på Linghemsskolan.
+    </p>
+    <div class="hero-cta">
+      <a href="#kontakt" class="btn-primary">Anmäl dig nu</a>
+      <a href="#info" class="btn-secondary">Läs mer</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-wrap">
+      <div class="hero-image-bg"></div>
+      <div class="hero-placeholder">
+        <svg class="silhouette" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="30" r="22" fill="currentColor" opacity="0.5"/>
+          <path d="M20 90 Q60 60 100 90 L95 160 Q60 180 25 160 Z" fill="currentColor" opacity="0.4"/>
+          <path d="M25 160 Q20 190 15 200 M95 160 Q100 190 105 200" stroke="currentColor" stroke-width="10" stroke-linecap="round" opacity="0.4"/>
+          <path d="M20 90 Q5 120 10 150 M100 90 Q115 120 110 150" stroke="currentColor" stroke-width="10" stroke-linecap="round" opacity="0.4"/>
+        </svg>
+        <span>@strongwithsandy</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-number">10</div>
+    <div class="stat-label">Träningstillfällen</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">45</div>
+    <div class="stat-label">Min per pass</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">1000</div>
+    <div class="stat-label">Kr hela terminen</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">100</div>
+    <div class="stat-label">% Energi</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="om">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-tag">Om programmet</p>
+        <h2 class="section-title">Träna smart.<br>Bli starkare.</h2>
+        <p>
+          <strong>StrongWithSandy</strong> är ett gruppträningsprogram i Linghem som är perfekt för dig som vill komma igång med träningen – eller ta nästa steg i din hälsoresa.
+        </p>
+        <p>
+          Under ledning av Sandy tränar vi tillsammans i en varm och välkomnande miljö. Oavsett om du är nybörjare eller van tränar du i din egna takt.
+        </p>
+        <p>
+          Totalt <strong>10 tillfällen</strong> under terminen, med uppehåll vid lov och röda dagar. Varje pass varar i 45 minuter och hålls på tisdagar.
+        </p>
+        <div style="margin-top: 36px;">
+          <a href="#kontakt" class="btn-primary">Kom igång</a>
+        </div>
+      </div>
+      <div class="about-visual reveal">
+        <div class="about-card">
+          <div class="about-card-icon">💪</div>
+          <h4>Styrketräning</h4>
+          <p>Bygg styrka och uthållighet med effektiva övningar anpassade för alla nivåer.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🔥</div>
+          <h4>Kondition</h4>
+          <p>Förbättra din kondition med pulshöjande och roliga inslag i varje pass.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🤝</div>
+          <h4>Gemenskap</h4>
+          <p>Träna med likasinnade i en motiverande och stöttande gruppmiljö.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">⚡</div>
+          <h4>Energi</h4>
+          <p>Lämna varje pass med mer energi och välmående än du hade när du kom.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info" class="info-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-tag">Praktisk info</p>
+      <h2 class="section-title">Allt du behöver veta</h2>
+    </div>
+    <div class="info-grid reveal">
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div class="info-label">Plats</div>
+        <div class="info-value">Linghemsskolan</div>
+        <div class="info-note">Linghem, Östergötland</div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🕗</div>
+        <div class="info-label">Tid</div>
+        <div class="info-value">Tisdagar<br>20:00–20:45</div>
+        <div class="info-note">45 minuters pass</div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📅</div>
+        <div class="info-label">Period</div>
+        <div class="info-value">3 Mars –<br>13 Maj</div>
+        <div class="info-note">10 tillfällen, uppehåll vid lov & röda dagar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pris" class="price-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <p class="section-tag">Pris</p>
+      <h2 class="section-title">Enkelt & transparent</h2>
+    </div>
+    <div class="price-card reveal">
+      <div class="price-tag">⭐ Bästa värde</div>
+      <div class="price-amount">1000</div>
+      <div class="price-unit">kr — hela terminen</div>
+      <ul class="price-includes">
+        <li><span class="check">✓</span> 10 gruppträningstillfällen</li>
+        <li><span class="check">✓</span> Professionell ledning av Sandy</li>
+        <li><span class="check">✓</span> Träning i välutrustat gym</li>
+        <li><span class="check">✓</span> Anpassad för alla nivåer</li>
+        <li><span class="check">✓</span> Stöttande grupp & gemenskap</li>
+      </ul>
+      <a href="#kontakt" class="btn-primary" style="display:block; text-align:center; width:100%;">Anmäl dig nu</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="kontakt" class="contact-section">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div>
+        <p class="section-tag reveal">Kontakt</p>
+        <h2 class="section-title reveal">Hör av dig!</h2>
+        <p style="font-size:15px; font-weight:300; color: var(--muted); line-height:1.8; margin-bottom:48px;" class="reveal">
+          Har du frågor eller vill du anmäla dig? Hör av dig till Sandy så hjälper hon dig vidare. Vi ses på tisdag!
+        </p>
+        <div class="reveal">
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div class="contact-info">
+              <span>Telefon</span>
+              <a href="tel:0704461146">070-446 11 46</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-info">
+              <span>E-post</span>
+              <a href="mailto:Sandyaksoy@gmail.com">Sandyaksoy@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📸</div>
+            <div class="contact-info">
+              <span>Instagram</span>
+              <a href="https://instagram.com/strongwithsandy" target="_blank">@strongwithsandy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-wrap reveal">
+        <h3>Skicka meddelande</h3>
+        <p>Fyll i formuläret så återkommer Sandy så snart som möjligt.</p>
+        <div class="form-group">
+          <input type="text" placeholder="Ditt namn">
+        </div>
+        <div class="form-group">
+          <input type="email" placeholder="Din e-postadress">
+        </div>
+        <div class="form-group">
+          <input type="tel" placeholder="Ditt telefonnummer">
+        </div>
+        <div class="form-group">
+          <textarea placeholder="Ditt meddelande eller fråga..."></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%; margin-top:8px;" onclick="handleSubmit()">Skicka meddelande</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Strong<span>With</span>Sandy</div>
+  <p>Gruppträning i Linghem · Mars–Maj 2025</p>
+  <p>© 2026 StrongWithSandy</p>
+</footer>
+
+<script>
+  // Scrolled nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = `${(i % 4) * 0.1}s`;
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => io.observe(r));
+
+  // Form
+  function handleSubmit() {
+    const btn = document.querySelector('.contact-form-wrap .btn-primary');
+    btn.textContent = '✓ Skickat!';
+    btn.style.background = '#2d6e3e';
+    setTimeout(() => {
+      btn.textContent = 'Skicka meddelande';
+      btn.style.background = '';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
