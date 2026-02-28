@@ -1,1 +1,1 @@
-# strong-with-sandy-website
+# Website idea for Strong With Sandy
