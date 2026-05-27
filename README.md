@@ -1,6 +1,6 @@
 Strong With Sandy 💪
 
-A modern and responsive website created for the Company Strong With Sandy.
+A modern and responsive website created for the swedish company Strong With Sandy.
 
 This project was built using HTML, CSS, and JavaScript with a focus on clean design, user experience, and responsive development. The goal was to create an engaging and accessible web experience while practicing real-world frontend development workflows.
 
@@ -10,6 +10,7 @@ Clean and modern UI
 Interactive frontend elements
 User-friendly navigation
 Structured and maintainable codebase
+
 🛠️ Built With
 HTML5
 CSS3
