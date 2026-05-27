@@ -189,6 +189,11 @@
     border: 1px solid rgba(90,173,110,0.15);
   }
 
+.hero-heart {
+  font-size: 90px;
+  color: var(--pink);
+}
+
   .silhouette {
     width: 120px;
     opacity: 0.6;
